@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Task from './task';
 
 
-const TaskList = ({taskData}) => {
+const TaskList = ({taskData, onDeleted}) => {
     const elements = taskData.map((item) => {
 
-        return (<Task {...item}/>);
+        return (<Task {...item}
+          onDeleted = {onDeleted}/>
+          );
+          
+          
+                    
     });
+
     return (
   <ul className = 'todo-list'>
       {elements}
@@ -15,3 +21,5 @@ const TaskList = ({taskData}) => {
   };
 
   export default TaskList;
+
+  console.log('zhopa');
