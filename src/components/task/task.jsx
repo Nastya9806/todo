@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class Task extends Component {
   constructor(props) {
@@ -22,4 +23,15 @@ export default class Task extends Component {
       </div>
     )
   }
+}
+
+Task.defaultProps = {
+  description: '',
+}
+
+Task.propTypes = {
+  description: PropTypes.string,
+  onDeleted: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
+  onSetEditing: PropTypes.func.isRequired,
 }

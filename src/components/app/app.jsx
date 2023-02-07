@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { formatDistanceToNow } from 'date-fns'
 
 import './app.css'
 import NewTaskForm from '../new-task-form/new-task-form'
@@ -18,7 +19,7 @@ export default class App extends Component {
         description,
         isDone: false,
         isEditing: false,
-        created: 'created 5 minutes ago',
+        created: `created ${formatDistanceToNow(new Date())}`,
         id: ++this.maxId,
       }
     }
