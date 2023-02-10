@@ -17,8 +17,8 @@ const TaskList = ({ taskData, closeEditing, onEditing, onToggleDone, onSetEditin
         }}
       >
         <input
-          type="text"
-          className="edit"
+          type='text'
+          className='edit'
           value={item.description}
           onChange={(event) => onEditing(event.target.value, item.id)}
         />
@@ -46,7 +46,7 @@ const TaskList = ({ taskData, closeEditing, onEditing, onToggleDone, onSetEditin
     )
   })
 
-  return <ul className="todo-list">{elements}</ul>
+  return <ul className='todo-list'>{elements}</ul>
 }
 
 TaskList.propTypes = {

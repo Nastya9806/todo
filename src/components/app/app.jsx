@@ -112,9 +112,9 @@ export default class App extends Component {
     const { taskData, filter } = this.state
     return (
       <div>
-        <section className="todoapp">
+        <section className='todoapp'>
           <NewTaskForm onAddItem={this.onAddItem} />
-          <section className="main">
+          <section className='main'>
             <TaskList
               taskData={taskData}
               onDeleted={this.deleteItem}

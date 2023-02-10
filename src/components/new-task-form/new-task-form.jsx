@@ -23,7 +23,11 @@ export default class NewTaskForm extends Component {
       this.setState({
         description: '',
       })
-      onAddItem(description)
+      if (description.length === 0) {
+        return null
+      } else {
+        onAddItem(description.trim())
+      }
     }
   }
 
@@ -31,10 +35,10 @@ export default class NewTaskForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <input
-          className="new-todo"
+          className='new-todo'
           value={this.state.description}
           onChange={this.onLabelChange}
-          placeholder="What needs to be done?"
+          placeholder='What needs to be done?'
           autoFocus
         />
       </form>

@@ -29,9 +29,9 @@ export default class TasksFilter extends Component {
 
   render() {
     return (
-      <ul className="filters">
+      <ul className='filters'>
         <li>
-          <button className="selected" onClick={this.onClick}>
+          <button className='selected' onClick={this.onClick}>
             All
           </button>
         </li>
