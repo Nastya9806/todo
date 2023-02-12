@@ -11,7 +11,7 @@ export default class TasksFilter extends Component {
     }
   }
 
-  getButton() {
+  getButton = () => {
     return document.querySelectorAll('.filters button')
   }
 
