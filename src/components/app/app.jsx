@@ -14,98 +14,99 @@ export default class App extends Component {
       filter: 'all',
     }
     this.maxId = 100
-    this.createTodoItem = (description) => {
+  }
+
+  createTodoItem = (description) => {
+    return {
+      description,
+      isDone: false,
+      isEditing: false,
+      created: `created ${formatDistanceToNow(new Date())}`,
+      id: ++this.maxId,
+    }
+  }
+
+  onAddItem = (label) => {
+    this.setState((state) => {
+      const item = this.createTodoItem(label)
+      return { taskData: [...state.taskData, item] }
+    })
+  }
+
+  deleteItem = (id) => {
+    this.setState(({ taskData }) => {
+      const idx = taskData.findIndex((el) => el.id === id)
+      const newData = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)]
       return {
-        description,
-        isDone: false,
-        isEditing: false,
-        created: `created ${formatDistanceToNow(new Date())}`,
-        id: ++this.maxId,
+        taskData: newData,
       }
-    }
+    })
+  }
 
-    this.onAddItem = (label) => {
-      this.setState((state) => {
-        const item = this.createTodoItem(label)
-        return { taskData: [...state.taskData, item] }
-      })
-    }
+  toggleProperty = (arr, id, propName) => {
+    const idx = arr.findIndex((item) => item.id === id)
+    const oldItem = arr[idx]
+    const value = !oldItem[propName]
+    const item = { ...arr[idx], [propName]: value }
 
-    this.deleteItem = (id) => {
-      this.setState(({ taskData }) => {
-        const idx = taskData.findIndex((el) => el.id === id)
-        const newData = [...taskData.slice(0, idx), ...taskData.slice(idx + 1)]
-        return {
-          taskData: newData,
-        }
-      })
-    }
+    return [...arr.slice(0, idx), item, ...arr.slice(idx + 1)]
+  }
 
-    this.toggleProperty = (arr, id, propName) => {
-      const idx = arr.findIndex((item) => item.id === id)
-      const oldItem = arr[idx]
-      const value = !oldItem[propName]
-      const item = { ...arr[idx], [propName]: value }
+  onToggleDone = (id) => {
+    this.setState((state) => {
+      const items = this.toggleProperty(state.taskData, id, 'isDone')
+      return { taskData: items }
+    })
+  }
 
-      return [...arr.slice(0, idx), item, ...arr.slice(idx + 1)]
-    }
+  onSetEditing = (id) => {
+    this.setState((state) => {
+      const items = this.toggleProperty(state.taskData, id, 'isEditing')
+      return { taskData: items }
+    })
+  }
 
-    this.onToggleDone = (id) => {
-      this.setState((state) => {
-        const items = this.toggleProperty(state.taskData, id, 'isDone')
-        return { taskData: items }
-      })
-    }
+  activeCount = () => {
+    return this.state.taskData.filter((el) => !el.isDone).length
+  }
 
-    this.onSetEditing = (id) => {
-      this.setState((state) => {
-        const items = this.toggleProperty(state.taskData, id, 'isEditing')
-        return { taskData: items }
-      })
-    }
+  onFilter = (filter) => {
+    this.setState({ filter })
+  }
 
-    this.activeCount = () => {
-      return this.state.taskData.filter((el) => !el.isDone).length
-    }
+  clearCompleted = () => {
+    const activeData = this.state.taskData.filter((el) => !el.isDone)
+    this.setState({
+      taskData: activeData,
+    })
+  }
 
-    this.onFilter = (filter) => {
-      this.setState({ filter })
-    }
+  onEditing = (description, id) => {
+    this.setState(({ taskData }) => {
+      const index = taskData.findIndex((el) => el.id === id)
+      const editingItem = {
+        ...taskData[index],
+        description,
+      }
+      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
+      return {
+        taskData: newData,
+      }
+    })
+  }
 
-    this.clearCompleted = () => {
-      const activeData = this.state.taskData.filter((el) => !el.isDone)
-      this.setState({
-        taskData: activeData,
-      })
-    }
-
-    this.onEditing = (description, id) => {
-      this.setState(({ taskData }) => {
-        const index = taskData.findIndex((el) => el.id === id)
-        const editingItem = {
-          ...taskData[index],
-          description,
-        }
-        const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
-        return {
-          taskData: newData,
-        }
-      })
-    }
-
-    this.closeEditing = (id) => {
-      this.setState(({ taskData }) => {
-        const index = taskData.findIndex((el) => el.id === id)
-        const editingItem = {
-          ...taskData[index],
-          isEditing: false,
-        }
-        const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
-        return {
-          taskData: newData,
-        }
-      })
-    }
+  closeEditing = (id) => {
+    this.setState(({ taskData }) => {
+      const index = taskData.findIndex((el) => el.id === id)
+      const editingItem = {
+        ...taskData[index],
+        isEditing: false,
+      }
+      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
+      return {
+        taskData: newData,
+      }
+    })
   }
 
   render() {

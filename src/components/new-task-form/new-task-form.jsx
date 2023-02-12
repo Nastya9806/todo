@@ -5,29 +5,27 @@ import './new-task-form.css'
 export default class NewTaskForm extends Component {
   constructor(props) {
     super(props)
-    const { onAddItem } = this.props
-
     this.state = {
       description: '',
     }
+  }
 
-    this.onLabelChange = (e) => {
-      this.setState({
-        description: e.target.value,
-      })
-    }
+  onLabelChange = (e) => {
+    this.setState({
+      description: e.target.value,
+    })
+  }
 
-    this.onSubmit = (e) => {
-      e.preventDefault()
-      const { description } = this.state
-      this.setState({
-        description: '',
-      })
-      if (description.length === 0) {
-        return null
-      } else {
-        onAddItem(description.trim())
-      }
+  onSubmit = (e) => {
+    e.preventDefault()
+    const { description } = this.state
+    this.setState({
+      description: '',
+    })
+    if (description.length === 0) {
+      return null
+    } else {
+      this.props.onAddItem(description.trim())
     }
   }
 

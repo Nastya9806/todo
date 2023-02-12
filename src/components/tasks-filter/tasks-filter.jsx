@@ -9,22 +9,22 @@ export default class TasksFilter extends Component {
     this.state = {
       filter: props.filter,
     }
+  }
 
-    this.getButton = () => {
-      return document.querySelectorAll('.filters button')
-    }
+  getButton() {
+    return document.querySelectorAll('.filters button')
+  }
 
-    this.onClick = (e) => {
-      if (e.target.classList.contains(this.selected)) {
-        return
-      }
-      const buttons = this.getButton()
-      for (let button of buttons) {
-        button.classList.remove(this.selected)
-      }
-      e.target.classList.add(this.selected)
-      this.props.onFilter(e.target.textContent)
+  onClick = (e) => {
+    if (e.target.classList.contains(this.selected)) {
+      return
     }
+    const buttons = this.getButton()
+    for (let button of buttons) {
+      button.classList.remove(this.selected)
+    }
+    e.target.classList.add(this.selected)
+    this.props.onFilter(e.target.textContent)
   }
 
   render() {
