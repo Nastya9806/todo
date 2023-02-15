@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { formatDistanceToNow } from 'date-fns'
+import { v4 as uuidv4 } from 'uuid'
 
 import './app.css'
 import NewTaskForm from '../new-task-form/new-task-form'
@@ -13,7 +13,6 @@ export default class App extends Component {
       taskData: [],
       filter: 'all',
     }
-    this.maxId = 100
   }
 
   createTodoItem = (description) => {
@@ -21,8 +20,8 @@ export default class App extends Component {
       description,
       isDone: false,
       isEditing: false,
-      created: `created ${formatDistanceToNow(new Date())}`,
-      id: ++this.maxId,
+      created: new Date(),
+      id: uuidv4(),
     }
   }
 
@@ -59,13 +58,6 @@ export default class App extends Component {
     })
   }
 
-  onSetEditing = (id) => {
-    this.setState((state) => {
-      const items = this.toggleProperty(state.taskData, id, 'isEditing')
-      return { taskData: items }
-    })
-  }
-
   activeCount = () => {
     return this.state.taskData.filter((el) => !el.isDone).length
   }
@@ -81,26 +73,12 @@ export default class App extends Component {
     })
   }
 
-  onEditing = (description, id) => {
+  onTaskChange = (description, id) => {
     this.setState(({ taskData }) => {
       const index = taskData.findIndex((el) => el.id === id)
       const editingItem = {
         ...taskData[index],
         description,
-      }
-      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
-      return {
-        taskData: newData,
-      }
-    })
-  }
-
-  closeEditing = (id) => {
-    this.setState(({ taskData }) => {
-      const index = taskData.findIndex((el) => el.id === id)
-      const editingItem = {
-        ...taskData[index],
-        isEditing: false,
       }
       const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
       return {
@@ -120,11 +98,9 @@ export default class App extends Component {
               taskData={taskData}
               onDeleted={this.deleteItem}
               onToggleDone={this.onToggleDone}
-              onSetEditing={this.onSetEditing}
               filter={filter}
-              onEditing={this.onEditing}
+              onTaskChange={this.onTaskChange}
               toggleProperty={this.toggleProperty}
-              closeEditing={this.closeEditing}
             />
             <Footer
               activeCount={this.activeCount}

@@ -22,8 +22,8 @@ export default class NewTaskForm extends Component {
     this.setState({
       description: '',
     })
-    if (description.length === 0) {
-      return null
+    if (description.trim().length === 0) {
+      return
     } else {
       this.props.onAddItem(description.trim())
     }
