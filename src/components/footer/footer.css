@@ -1,4 +1,3 @@
-
 .footer {
 	display: flex;
 	justify-content: space-between;
@@ -35,8 +34,6 @@
 	font-weight: 300;
 }
 
-@media (max-width: 430px) {
-	.footer {
-		height: 50px;
-	}
+.clear-completed:hover {
+	text-decoration: underline;
 }

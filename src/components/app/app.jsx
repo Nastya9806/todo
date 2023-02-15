@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { formatDistanceToNow } from 'date-fns'
+import { v4 as uuidv4 } from 'uuid'
 
 import './app.css'
 import NewTaskForm from '../new-task-form/new-task-form'
@@ -13,23 +13,35 @@ export default class App extends Component {
       taskData: [],
       filter: 'all',
     }
-    this.maxId = 100
   }
 
-  createTodoItem = (description) => {
+  createTodoItem = (description, timer) => {
     return {
       description,
       isDone: false,
-      isEditing: false,
-      created: `created ${formatDistanceToNow(new Date())}`,
-      id: ++this.maxId,
+      created: new Date(),
+      id: uuidv4(),
+      timer,
     }
   }
 
-  onAddItem = (label) => {
+  onTimer = (id) => {
+    this.setState(({ taskData }) => {
+      const idx = taskData.findIndex((el) => el.id === id)
+      const task = taskData[idx]
+      const newItem = { ...task, timer: task.timer - 1 }
+      const newArray = [...taskData.slice(0, idx), newItem, ...taskData.slice(idx + 1)]
+      return {
+        taskData: newArray,
+      }
+    })
+  }
+
+  onAddItem = (label, timer) => {
+    const newTask = this.createTodoItem(label, timer)
     this.setState((state) => {
-      const item = this.createTodoItem(label)
-      return { taskData: [...state.taskData, item] }
+      const newData = [...state.taskData, newTask]
+      return { taskData: newData }
     })
   }
 
@@ -59,13 +71,6 @@ export default class App extends Component {
     })
   }
 
-  onSetEditing = (id) => {
-    this.setState((state) => {
-      const items = this.toggleProperty(state.taskData, id, 'isEditing')
-      return { taskData: items }
-    })
-  }
-
   activeCount = () => {
     return this.state.taskData.filter((el) => !el.isDone).length
   }
@@ -81,7 +86,7 @@ export default class App extends Component {
     })
   }
 
-  onEditing = (description, id) => {
+  onTaskChange = (description, id) => {
     this.setState(({ taskData }) => {
       const index = taskData.findIndex((el) => el.id === id)
       const editingItem = {
@@ -95,36 +100,24 @@ export default class App extends Component {
     })
   }
 
-  closeEditing = (id) => {
-    this.setState(({ taskData }) => {
-      const index = taskData.findIndex((el) => el.id === id)
-      const editingItem = {
-        ...taskData[index],
-        isEditing: false,
-      }
-      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
-      return {
-        taskData: newData,
-      }
-    })
-  }
-
   render() {
     const { taskData, filter } = this.state
     return (
       <div>
         <section className='todoapp'>
-          <NewTaskForm onAddItem={this.onAddItem} />
+          <header className='header'>
+            <h1>todos</h1>
+            <NewTaskForm onAddItem={this.onAddItem} />
+          </header>
           <section className='main'>
             <TaskList
               taskData={taskData}
               onDeleted={this.deleteItem}
               onToggleDone={this.onToggleDone}
-              onSetEditing={this.onSetEditing}
               filter={filter}
-              onEditing={this.onEditing}
+              onTaskChange={this.onTaskChange}
               toggleProperty={this.toggleProperty}
-              closeEditing={this.closeEditing}
+              onTimer={this.onTimer}
             />
             <Footer
               activeCount={this.activeCount}
