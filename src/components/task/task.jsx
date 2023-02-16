@@ -23,12 +23,12 @@ export default class Task extends Component {
   classNames = () => {
     const { isEditing } = this.state
     const { isDone } = this.props
-    let className = 'task'
+    let className = ''
     if (isEditing) {
-      className += ' editing'
+      className += 'editing'
     }
     if (isDone) {
-      className += ' completed'
+      className += 'completed'
     }
     return className
   }
