@@ -66,9 +66,9 @@ export default class Task extends Component {
   classNames = () => {
     const { isEditing } = this.state
     const { isDone } = this.props
-    let className = 'task'
-    if (isEditing) className += ' editing'
-    if (isDone) className += ' completed'
+    let className = ''
+    if (isEditing) className += 'editing'
+    if (isDone) className += 'completed'
     return className
   }
 
