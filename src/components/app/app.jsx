@@ -19,7 +19,6 @@ export default class App extends Component {
     return {
       description,
       isDone: false,
-      isEditing: false,
       created: new Date(),
       id: uuidv4(),
     }
