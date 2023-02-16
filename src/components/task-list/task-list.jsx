@@ -1,19 +1,22 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import Task from '../task/task'
 import './todo-list.css'
 
-const TaskList = ({ taskData, onTaskChange, onToggleDone, onDeleted, filter }) => {
+const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter }) => {
   const elements = taskData.map((item) => {
-    if ((filter === 'Completed' && !item.isDone) || (filter === 'Active' && item.isDone)) {
+    const { isDone } = item
+    if ((filter === 'Completed' && !isDone) || (filter === 'Active' && isDone)) {
       return null
     }
+
     return (
       <Task
         {...item}
         id={item.id}
         key={item.id}
+        // item={...item}
+        isDone={isDone}
         onToggleDone={onToggleDone}
         onTaskChange={onTaskChange}
         onDeleted={onDeleted}
@@ -22,11 +25,6 @@ const TaskList = ({ taskData, onTaskChange, onToggleDone, onDeleted, filter }) =
   })
 
   return <ul className='todo-list'>{elements}</ul>
-}
-
-TaskList.propTypes = {
-  onToggleDone: PropTypes.func.isRequired,
-  onDeleted: PropTypes.func.isRequired,
 }
 
 export default TaskList
