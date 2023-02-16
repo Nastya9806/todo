@@ -24,30 +24,25 @@ const App = () => {
   }
 
   const deleteItem = (id) => {
-    setTaskData((prevState) => prevState.filter((t) => t.id !== id))
+    setTaskData((prevState) => prevState.filter((item) => item.id !== id))
   }
 
   const onToggleDone = (id) => {
-    setTaskData((prevState) => prevState.map((t) => (t.id === id ? { ...t, isDone: !t.isDone } : t)))
+    setTaskData((prevState) => prevState.map((item) => (item.id === id ? { ...item, isDone: !item.isDone } : item)))
   }
 
   const activeCount = () => {
-    const active = taskData.filter((el) => !el.isDone).length
+    const active = taskData.filter((item) => !item.isDone).length
     return `${active} items left`
   }
 
-  // const [filter, setFilter] = useState('All');
-  // // const [filter, setFilter] = useState(defFilters)
-  // const onFilter = (selectedFilter) => {
-  //   setFilter(selectedFilter)
-  // }
   const clearCompleted = () => {
     const activeData = taskData.filter((el) => !el.isDone)
     setTaskData(activeData)
   }
 
   const onTaskChange = (description, id) => {
-    setTaskData((prevState) => prevState.map((t) => (t.id === id ? { ...t, description: description } : t)))
+    setTaskData((prevState) => prevState.map((item) => (item.id === id ? { ...item, description: description } : item)))
   }
 
   return (

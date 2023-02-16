@@ -15,7 +15,6 @@ const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter }) =
         {...item}
         id={item.id}
         key={item.id}
-        // item={...item}
         isDone={isDone}
         onToggleDone={onToggleDone}
         onTaskChange={onTaskChange}
