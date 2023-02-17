@@ -3,9 +3,9 @@ import React from 'react'
 import Task from '../task/task'
 import './todo-list.css'
 
-const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter }) => {
+const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onTimer }) => {
   const elements = taskData.map((item) => {
-    const { isDone } = item
+    const { isDone, timer } = item
     if ((filter === 'Completed' && !isDone) || (filter === 'Active' && isDone)) {
       return null
     }
@@ -19,6 +19,8 @@ const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter }) =
         onToggleDone={onToggleDone}
         onTaskChange={onTaskChange}
         onDeleted={onDeleted}
+        onTimer={onTimer}
+        timer={timer}
       />
     )
   })

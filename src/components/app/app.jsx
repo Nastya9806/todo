@@ -9,17 +9,18 @@ import Footer from '../footer/footer'
 const App = () => {
   const [taskData, setTaskData] = useState([])
   const [filter, setFilter] = useState('')
-  const createTodoItem = (description) => {
+  const createTodoItem = (description, timer) => {
     return {
       description,
       isDone: false,
       created: new Date(),
       id: uuidv4(),
+      timer,
     }
   }
 
-  const onAddItem = (label) => {
-    const item = createTodoItem(label)
+  const onAddItem = (label, timer) => {
+    const item = createTodoItem(label, timer)
     setTaskData((prevState) => [...prevState, item])
   }
 
@@ -45,6 +46,10 @@ const App = () => {
     setTaskData((prevState) => prevState.map((item) => (item.id === id ? { ...item, description: description } : item)))
   }
 
+  const onTimer = (id) => {
+    setTaskData((prevState) => prevState.map((item) => (item.id === id ? { ...item, timer: item.timer - 1 } : item)))
+  }
+
   return (
     <div>
       <section className='todoapp'>
@@ -56,6 +61,7 @@ const App = () => {
             onToggleDone={onToggleDone}
             onTaskChange={onTaskChange}
             filter={filter}
+            onTimer={onTimer}
           />
           <Footer activeCount={activeCount} filter={filter} onFilter={setFilter} clearCompleted={clearCompleted} />
         </section>
