@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './tasks-filter.css'
 
 const classSelected = 'selected'
@@ -35,4 +36,7 @@ const TasksFilter = ({ onFilter }) => {
   )
 }
 
+TasksFilter.propTypes = {
+  onFilter: PropTypes.func.isRequired,
+}
 export default TasksFilter

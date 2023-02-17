@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
 const Task = ({ isDone, description, created, onToggleDone, id, onTaskChange, onDeleted, timer, onTimer }) => {
@@ -74,6 +75,16 @@ const Task = ({ isDone, description, created, onToggleDone, id, onTaskChange, on
       </form>
     </li>
   )
+}
+
+Task.defaultProps = {
+  description: '',
+}
+
+Task.propTypes = {
+  description: PropTypes.string,
+  onDeleted: PropTypes.func.isRequired,
+  onToggleDone: PropTypes.func.isRequired,
 }
 
 export default Task

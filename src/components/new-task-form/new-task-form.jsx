@@ -1,17 +1,11 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import './new-task-form.css'
 
 const NewTaskForm = ({ onAddItem }) => {
   const [description, setDescription] = useState('')
   const [min, setMin] = useState('')
   const [sec, setSec] = useState('')
-
-  // const onLabelChange = (e, prop) => {
-  //   prop(e.target.value)
-  //   setDescription(e.target.value)
-  //   setMin('')
-  //   setSec('')
-  // }
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -54,6 +48,15 @@ const NewTaskForm = ({ onAddItem }) => {
       <input type='submit' className='submit-button' />
     </form>
   )
+}
+
+NewTaskForm.defaultProps = {
+  label: '',
+}
+
+NewTaskForm.propTypes = {
+  label: PropTypes.string,
+  onAddItem: PropTypes.func.isRequired,
 }
 
 export default NewTaskForm

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Task from '../task/task'
 import './todo-list.css'
@@ -26,6 +27,11 @@ const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onT
   })
 
   return <ul className='todo-list'>{elements}</ul>
+}
+
+TaskList.propTypes = {
+  onToggleDone: PropTypes.func.isRequired,
+  onDeleted: PropTypes.func.isRequired,
 }
 
 export default TaskList
