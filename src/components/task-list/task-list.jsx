@@ -6,20 +6,22 @@ import './todo-list.css'
 
 const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onTimer }) => {
   const elements = taskData.map((item) => {
-    if ((filter === 'Completed' && !item.isDone) || (filter === 'Active' && item.isDone)) {
+    const { isDone, timer } = item
+    if ((filter === 'Completed' && !isDone) || (filter === 'Active' && isDone)) {
       return null
     }
 
-    const { id } = item
     return (
       <Task
-        id={item.id}
         {...item}
+        id={item.id}
         key={item.id}
+        isDone={isDone}
         onToggleDone={onToggleDone}
-        onDeleted={onDeleted}
         onTaskChange={onTaskChange}
-        onTimer={() => onTimer(id)}
+        onDeleted={onDeleted}
+        onTimer={onTimer}
+        timer={timer}
       />
     )
   })
