@@ -6,34 +6,6 @@ import Timer from '../timer/timer'
 
 const Task = ({ isDone, description, created, onToggleDone, id, onTaskChange, onDeleted, timer, onTimer }) => {
   const [isEditing, setEditing] = useState(false)
-  // const [count, setTimer] = useState(null)
-
-  // const formatTime = () => {
-  //   const min = Math.floor(timer / 60)
-  //   const sec = timer % 60
-  //   return isDone ? `${'0'}:${'00'}` : `${min}:${sec.toString().padStart(2, '0')}`
-  // }
-
-  // useEffect(() => {
-  //   return () => clearInterval(count)
-  // }, [count])
-
-  // const handleStart = () => {
-  //   if (isDone || count) {
-  //     return
-  //   }
-
-  //   setTimer(setInterval(onTimer, 1000, id))
-  // }
-
-  // const handleStop = () => {
-  //   if (!count) {
-  //     return
-  //   }
-
-  //   clearInterval(count)
-  //   setTimer(null)
-  // }
 
   const classNames = () => {
     let className = ''
