@@ -11,7 +11,7 @@ const NewTaskForm = ({ onAddItem }) => {
     e.preventDefault()
     const timer = min * 60 + parseInt(sec, 10)
 
-    if (description.trim().length === 0 || isNaN(min) || isNaN(sec) || !(min && sec)) {
+    if (description.trim().length === 0 || isNaN(min) || isNaN(sec) || !(min && sec) || min < 0 || sec < 0) {
       return
     } else {
       onAddItem(description.trim(), timer)
