@@ -22,7 +22,15 @@ export default class NewTaskForm extends Component {
     e.preventDefault()
     const { description, min, sec } = this.state
     const timer = min * 60 + parseInt(sec, 10)
-    if (description.trim().length === 0 || isNaN(min) || isNaN(sec) || !(min && sec) || min < 0 || sec < 0) {
+    if (
+      description.trim().length === 0 ||
+      isNaN(min) ||
+      isNaN(sec) ||
+      !(min && sec) ||
+      min < 0 ||
+      sec < 0 ||
+      sec > 59
+    ) {
       return
     } else {
       this.props.onAddItem(description.trim(), timer)

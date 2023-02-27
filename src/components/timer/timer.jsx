@@ -5,36 +5,45 @@ export default class Timer extends Component {
     super(props)
 
     this.state = {
-      count: null,
+      timerId: null,
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { timer } = this.props
-    const { count } = this.state
+    const { timer, isDone } = this.props
+    const { timerId } = this.state
     if (prevProps.timer !== timer && timer <= 0) {
-      clearInterval(count)
+      clearInterval(timerId)
+    }
+    if (isDone !== prevProps.isDone) {
+      this.handleStop()
     }
   }
 
+  componentWillUnmount() {
+    this.handleStop()
+  }
+
   handleStart = () => {
-    const { count } = this.state
-    const { timer, id, onTimer } = this.props
-    if (!count && timer > 0) {
-      const timeInt = setInterval(() => {
-        onTimer(id)
-      }, 1000)
+    const { timerId } = this.state
+    const { timer, id, onTimer, isDone } = this.props
+
+    if (!timerId && timer > 0 && !isDone) {
       this.setState({
-        count: timeInt,
+        timerId: setInterval(() => {
+          onTimer(id)
+        }, 1000),
       })
+    } else {
+      return
     }
   }
 
   handleStop = () => {
-    const { count } = this.state
-    clearInterval(count)
+    const { timerId } = this.state
+    clearInterval(timerId)
     this.setState({
-      count: null,
+      timerId: null,
     })
   }
 
@@ -42,7 +51,6 @@ export default class Timer extends Component {
     const { timer } = this.props
     const min = Math.floor(timer / 60)
     const sec = timer % 60
-
     return `${min}:${sec.toString().padStart(2, '0')}`
   }
 

@@ -100,6 +100,20 @@ export default class App extends Component {
     })
   }
 
+  onSetTimer = (description, id) => {
+    this.setState(({ taskData }) => {
+      const index = taskData.findIndex((el) => el.id === id)
+      const editingItem = {
+        ...taskData[index],
+        description,
+      }
+      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
+      return {
+        taskData: newData,
+      }
+    })
+  }
+
   render() {
     const { taskData, filter } = this.state
     return (

@@ -17,6 +17,7 @@ export default class Task extends Component {
       isEditing: true,
     })
   }
+
   closeEditing = () => {
     this.setState({
       isEditing: false,
@@ -44,7 +45,7 @@ export default class Task extends Component {
           <label>
             <span className='title'>{description}</span>
             <span className='description'>
-              <Timer onTimer={onTimer} id={id} timer={timer} />
+              <Timer onTimer={onTimer} id={id} isDone={isDone} timer={timer} />
             </span>
             <span className='description'>{formatDistanceToNow(created)}</span>
           </label>
