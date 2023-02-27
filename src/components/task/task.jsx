@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
+import Timer from '../timer/timer'
+
 const Task = ({ isDone, description, created, onToggleDone, id, onTaskChange, onDeleted, timer, onTimer }) => {
   const [isEditing, setEditing] = useState(false)
-  const [count, setTimer] = useState(null)
+  // const [count, setTimer] = useState(null)
 
-  const formatTime = () => {
-    const min = Math.floor(timer / 60)
-    const sec = timer % 60
-    return isDone ? `${'0'}:${'00'}` : `${min}:${sec.toString().padStart(2, '0')}`
-  }
+  // const formatTime = () => {
+  //   const min = Math.floor(timer / 60)
+  //   const sec = timer % 60
+  //   return isDone ? `${'0'}:${'00'}` : `${min}:${sec.toString().padStart(2, '0')}`
+  // }
 
-  useEffect(() => {
-    return () => clearInterval(count)
-  }, [count])
+  // useEffect(() => {
+  //   return () => clearInterval(count)
+  // }, [count])
 
-  const handleStart = () => {
-    if (isDone || count) {
-      return
-    }
+  // const handleStart = () => {
+  //   if (isDone || count) {
+  //     return
+  //   }
 
-    setTimer(setInterval(onTimer, 1000, id))
-  }
+  //   setTimer(setInterval(onTimer, 1000, id))
+  // }
 
-  const handleStop = () => {
-    if (!count) {
-      return
-    }
+  // const handleStop = () => {
+  //   if (!count) {
+  //     return
+  //   }
 
-    clearInterval(count)
-    setTimer(null)
-  }
+  //   clearInterval(count)
+  //   setTimer(null)
+  // }
 
   const classNames = () => {
     let className = ''
@@ -51,9 +53,7 @@ const Task = ({ isDone, description, created, onToggleDone, id, onTaskChange, on
         <label>
           <span className='title'>{description}</span>
           <span className='description'>
-            <button className='icon icon-play' onClick={() => handleStart(id)} />
-            <button className='icon icon-pause' onClick={() => handleStop()} />
-            {formatTime()}
+            <Timer onTimer={onTimer} id={id} timer={timer} />
           </span>
           <span className='description'>{formatDistanceToNow(created)}</span>
         </label>
