@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import PropTypes, { objectOf } from 'prop-types'
 import { formatDistanceToNow } from 'date-fns'
 
 import Timer from '../timer/timer'
@@ -25,13 +25,16 @@ export default class Task extends Component {
   }
   classNames = () => {
     const { isEditing } = this.state
-    const { isDone } = this.props
+    const { isDone, visible, id } = this.props
     let className = ''
     if (isEditing) {
       className += 'editing'
     }
     if (isDone) {
       className += 'completed'
+    }
+    if (!visible.some((el) => el.id === id)) {
+      className = 'hidden'
     }
     return className
   }
@@ -42,13 +45,12 @@ export default class Task extends Component {
       <li className={this.classNames()}>
         <div className='view'>
           <input className='toggle' type='checkbox' onChange={() => onToggleDone(id)} checked={isDone} />
-          <label>
+          <div className='label'>
             <span className='title'>{description}</span>
-            <span className='description'>
-              <Timer onTimer={onTimer} id={id} isDone={isDone} timer={timer} />
-            </span>
+            <Timer onTimer={() => onTimer(id)} id={id} isDone={isDone} timer={timer} />
             <span className='description'>{formatDistanceToNow(created)}</span>
-          </label>
+          </div>
+
           <button className='icon icon-edit' onClick={() => this.onSetEditing(id)}></button>
           <button className='icon icon-destroy' onClick={() => onDeleted(id)}></button>
         </div>
@@ -78,4 +80,6 @@ Task.propTypes = {
   description: PropTypes.string,
   onDeleted: PropTypes.func.isRequired,
   onToggleDone: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  visible: PropTypes.arrayOf(objectOf).isRequired,
 }

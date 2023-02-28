@@ -75,6 +75,19 @@ export default class App extends Component {
     return this.state.taskData.filter((el) => !el.isDone).length
   }
 
+  filter = (items, filter) => {
+    if (filter === 'all') {
+      return items
+    }
+    if (filter === 'active') {
+      return items.filter((item) => !item.isDone)
+    }
+    if (filter === 'done') {
+      return items.filter((item) => item.isDone)
+    }
+    return items
+  }
+
   onFilter = (filter) => {
     this.setState({ filter })
   }
@@ -100,22 +113,9 @@ export default class App extends Component {
     })
   }
 
-  onSetTimer = (description, id) => {
-    this.setState(({ taskData }) => {
-      const index = taskData.findIndex((el) => el.id === id)
-      const editingItem = {
-        ...taskData[index],
-        description,
-      }
-      const newData = [...taskData.slice(0, index), editingItem, ...taskData.slice(index + 1)]
-      return {
-        taskData: newData,
-      }
-    })
-  }
-
   render() {
     const { taskData, filter } = this.state
+    const visibleItems = this.filter(taskData, filter)
     return (
       <div>
         <section className='todoapp'>
@@ -126,12 +126,14 @@ export default class App extends Component {
           <section className='main'>
             <TaskList
               taskData={taskData}
+              visible={visibleItems}
               onDeleted={this.deleteItem}
               onToggleDone={this.onToggleDone}
               filter={filter}
               onTaskChange={this.onTaskChange}
               toggleProperty={this.toggleProperty}
               onTimer={this.onTimer}
+              onSetTimer={this.onSetTimer}
             />
             <Footer
               activeCount={this.activeCount}

@@ -1,50 +1,54 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 export default class Timer extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      timerId: null,
+      isRunning: false,
+    }
+
+    this.handleStart = () => {
+      const { isDone, timer, onTimer } = this.props
+      const { isRunning } = this.state
+      if (!isDone && timer > 0 && !isRunning) {
+        this.setState({
+          isRunning: true,
+        })
+        this.timerId = setInterval(() => onTimer(), 1000)
+      }
+    }
+
+    this.handleStop = () => {
+      this.setState({
+        isRunning: false,
+      })
     }
   }
 
+  componentDidMount() {
+    this.setState({
+      isRunning: false,
+    })
+  }
+
   componentDidUpdate(prevProps) {
+    const { isRunning } = this.state
     const { timer, isDone } = this.props
-    const { timerId } = this.state
     if (prevProps.timer !== timer && timer <= 0) {
-      clearInterval(timerId)
+      clearInterval(this.timerId)
     }
     if (isDone !== prevProps.isDone) {
       this.handleStop()
     }
-  }
-
-  componentWillUnmount() {
-    this.handleStop()
-  }
-
-  handleStart = () => {
-    const { timerId } = this.state
-    const { timer, id, onTimer, isDone } = this.props
-
-    if (!timerId && timer > 0 && !isDone) {
-      this.setState({
-        timerId: setInterval(() => {
-          onTimer(id)
-        }, 1000),
-      })
-    } else {
-      return
+    if (!isRunning) {
+      clearInterval(this.timerId)
     }
   }
 
-  handleStop = () => {
-    const { timerId } = this.state
-    clearInterval(timerId)
-    this.setState({
-      timerId: null,
-    })
+  componentWillUnmount() {
+    clearInterval(this.timerId)
   }
 
   formatTime = () => {
@@ -63,4 +67,13 @@ export default class Timer extends Component {
       </span>
     )
   }
+}
+
+Timer.defaultProps = {
+  onTimer: () => {},
+}
+
+Timer.propTypes = {
+  timer: PropTypes.number.isRequired,
+  onTimer: PropTypes.func,
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Task from '../task/task'
 import './todo-list.css'
 
-const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onTimer }) => {
+const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onTimer, onSetTimer, visible }) => {
   const elements = taskData.map((item) => {
     const { isDone, timer } = item
     if ((filter === 'Completed' && !isDone) || (filter === 'Active' && isDone)) {
@@ -22,6 +22,8 @@ const TaskList = ({ taskData, onToggleDone, onTaskChange, onDeleted, filter, onT
         onDeleted={onDeleted}
         onTimer={onTimer}
         timer={timer}
+        onSetTimer={onSetTimer}
+        visible={visible}
       />
     )
   })
