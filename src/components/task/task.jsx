@@ -28,10 +28,10 @@ export default class Task extends Component {
     const { isDone, visible, id } = this.props
     let className = ''
     if (isEditing) {
-      className += 'editing'
+      className += ' editing'
     }
     if (isDone) {
-      className += 'completed'
+      className += ' completed'
     }
     if (!visible.some((el) => el.id === id)) {
       className = 'hidden'
